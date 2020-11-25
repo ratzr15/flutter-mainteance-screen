@@ -1,2 +1,3 @@
-# flutter-mainteance-screen
-Maintenance module developed in flutter
+# flutter-maintenance-screen
+
+> Maintenance module developed in flutter
