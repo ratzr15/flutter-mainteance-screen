@@ -24,8 +24,8 @@ class FirstScreen extends StatelessWidget {
                 padding: EdgeInsets.all(0.0),
                 child: FlatButton(
                     padding: EdgeInsets.all(0),
-                    textColor: Colors.black,
-                    color: Colors.red,
+                    textColor: Colors.white,
+                    color: Colors.black,
                     onPressed: () {
                       _navigateToNextScreen(context);
                     },
