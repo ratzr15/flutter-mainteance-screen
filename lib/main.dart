@@ -1,52 +1,71 @@
 import 'package:flutter/material.dart';
+import 'package:english_words/english_words.dart';
 
-void main() {
-  runApp(SampleApp());
-}
+void main() => runApp(MyApp());
 
-class SampleApp extends StatelessWidget {
-  // This widget is the root of your application.
+// #docregion MyApp
+class MyApp extends StatelessWidget {
+  // #docregion build
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Sample App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: SampleAppPage(),
+      title: 'Startup Name Generator',
+      home: RandomWords(),
     );
   }
+  // #enddocregion build
 }
+// #enddocregion MyApp
 
-class SampleAppPage extends StatefulWidget {
-  SampleAppPage({Key key}) : super(key: key);
+// #docregion RWS-var
+class RandomWordsState extends State<RandomWords> {
+  final _suggestions = <WordPair>[];
+  final _biggerFont = const TextStyle(fontSize: 18.0);
+  // #enddocregion RWS-var
 
-  @override
-  _SampleAppPageState createState() => _SampleAppPageState();
-}
+  // #docregion _buildSuggestions
+  Widget _buildSuggestions() {
+    return ListView.builder(
+        padding: const EdgeInsets.all(16.0),
+        itemBuilder: /*1*/ (context, i) {
+          if (i.isOdd) return Divider(); /*2*/
 
-class _SampleAppPageState extends State<SampleAppPage> {
-  // Default placeholder text
-  String textToShow = "I Like Flutter";
-  void _updateText() {
-    setState(() {
-      // update the text
-      textToShow = "Flutter is Awesome!";
-    });
+          final index = i ~/ 2; /*3*/
+          if (index >= _suggestions.length) {
+            _suggestions.addAll(generateWordPairs().take(10)); /*4*/
+          }
+          return _buildRow(_suggestions[index]);
+        });
   }
+  // #enddocregion _buildSuggestions
 
+  // #docregion _buildRow
+  Widget _buildRow(WordPair pair) {
+    return ListTile(
+      title: Text(
+        pair.asPascalCase,
+        style: _biggerFont,
+      ),
+    );
+  }
+  // #enddocregion _buildRow
+
+  // #docregion RWS-build
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Sample App"),
+        title: Text('Startup Name Generator'),
       ),
-      body: Center(child: Text(textToShow)),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _updateText,
-        tooltip: 'Update Text',
-        child: Icon(Icons.update),
-      ),
+      body: _buildSuggestions(),
     );
   }
+  // #enddocregion RWS-build
+  // #docregion RWS-var
+}
+// #enddocregion RWS-var
+
+class RandomWords extends StatefulWidget {
+  @override
+  RandomWordsState createState() => new RandomWordsState();
 }
